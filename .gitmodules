@@ -1,6 +1,6 @@
-[submodule "third_party/alpaka"]
-	path = third_party/alpaka
-	url = https://github.com/alpaka-group/alpaka.git
-[submodule "third_party/eigen"]
-	path = third_party/eigen
+[submodule "external/eigen"]
+	path = external/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "external/alpaka"]
+	path = external/alpaka
+	url = https://github.com/alpaka-group/alpaka.git
