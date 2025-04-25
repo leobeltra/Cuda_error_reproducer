@@ -1,8 +1,9 @@
-// #include "FWCore/Utilities/interface/Exception.h"
-// #include "HeterogeneousCore/AlpakaInterface/interface/Backend.h"
+#ifndef HeterogeneousCore_AlpakaInterface_interface_Backend_h
+#define HeterogeneousCore_AlpakaInterface_interface_Backend_h
 
 #include <algorithm>
 #include <array>
+#include <string_view>
 
 namespace cms::alpakatools {
   // Enumeration whose value EDModules can put in the event
@@ -40,3 +41,5 @@ namespace cms::alpakatools {
     return backendNames[val];
   }
 }  // namespace cms::alpakatools
+
+#endif

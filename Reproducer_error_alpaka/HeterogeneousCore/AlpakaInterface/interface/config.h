@@ -5,7 +5,7 @@
 
 #include <alpaka/alpaka.hpp>
 
-#include "HeterogeneousCore/AlpakaInterface/interface/Backend.h"
+//#include "HeterogeneousCore/AlpakaInterface/interface/Backend.h"
 // #include "FWCore/Utilities/interface/stringize.h"
 
 #define EDM_STRINGIZE_(token) #token
@@ -202,9 +202,9 @@ namespace alpaka_tbb_async {
 #define ALPAKA_TYPE_ALIAS_NAME(TYPE) EDM_STRINGIZE(ALPAKA_TYPE_ALIAS(TYPE))
 
 // Ensure the enumeration names are consistent with type suffix
-namespace ALPAKA_ACCELERATOR_NAMESPACE {
-  inline constexpr const cms::alpakatools::Backend kBackend = cms::alpakatools::Backend::ALPAKA_TYPE_SUFFIX;
-}
+//namespace ALPAKA_ACCELERATOR_NAMESPACE {
+//  inline constexpr const cms::alpakatools::Backend kBackend = cms::alpakatools::Backend::ALPAKA_TYPE_SUFFIX;
+//}
 
 #endif  // ALPAKA_ACCELERATOR_NAMESPACE
 
