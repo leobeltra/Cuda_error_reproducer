@@ -40,18 +40,13 @@ LINK_FLAGS := -Wl,-E -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-z,noexecstack
 LIBS := $(LINK_CUDA) -lcudart -lnvToolsExt -lcuda -lcrypt -ldl -lrt -lstdc++fs #-lnvidia-ml
 
 # Sources
-CPU_SRC := VertexFinder_t.cc
 GPU_SRC := VertexFinder_t.dev.cc
 DLINK_OBJ := VertexFinder_cudadlink.o
 
 # Objects
-CPU_OBJ := $(CPU_SRC:.cc=.cc.o)
 GPU_OBJ := $(GPU_SRC:.cc=.cc.o)
 
 all: VertexFinder_t
-
-%.cc.o: %.cc
-	$(CXX) -c $(BOOST_MACRO) $(GNU_MACRO) $(INCLUDES) $(CXX_FLAGS) $(ALPAKA_HOST_MACRO) -DGPU_DEBUG -DONE_KERNEL $< -o $@
 
 %.dev.cc.o: %.dev.cc
 	$(NVCC) -x cu -dc $(BOOST_MACRO) $(GNU_MACRO) $(INCLUDES) $(NVCC_FLAGS) $(NVCC_ARCH) $(ALPAKA_DEVICE_MACRO) $(CUDA_HOST_COMPILER) $< -o $@
@@ -59,7 +54,7 @@ all: VertexFinder_t
 $(DLINK_OBJ): $(GPU_OBJ)
 	$(NVCC) -dlink $(LINK_STUBS) $(NVCC_FLAGS) $(NVCC_ARCH) $(ALPAKA_DEVICE_MACRO) $(CUDA_HOST_COMPILER) $^ -o $@
 
-VertexFinder_t: $(CPU_OBJ) $(GPU_OBJ) $(DLINK_OBJ)
+VertexFinder_t: $(GPU_OBJ) $(DLINK_OBJ)
 	$(CXX) $(CXX_FLAGS) $(LINK_FLAGS) $^ $(LIBS) -o $@
 
 clean:

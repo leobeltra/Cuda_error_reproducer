@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdlib>
 #include <cstdint>
 #include <iostream>
 #include <random>
@@ -8,19 +9,9 @@
 
 // TrackUtilities only included in order to compile SoALayout with Eigen columns
 #include "DataFormats/TrackSoA/interface/alpaka/TrackUtilities.h"
-#include "HeterogeneousCore/AlpakaInterface/interface/config.h"
 #include "HeterogeneousCore/AlpakaInterface/interface/memory.h"
 #include "HeterogeneousCore/AlpakaInterface/interface/workdivision.h"
-#ifdef USE_DBSCAN
-#include "RecoVertex/PixelVertexFinding/plugins/alpaka/clusterTracksDBSCAN.h"
-#define CLUSTERIZE ALPAKA_ACCELERATOR_NAMESPACE::vertexFinder::ClusterTracksDBSCAN
-#elif USE_ITERATIVE
-#include "RecoVertex/PixelVertexFinding/plugins/alpaka/clusterTracksIterative.h"
-#define CLUSTERIZE ALPAKA_ACCELERATOR_NAMESPACE::vertexFinder::ClusterTracksIterative
-#else
 #include "RecoVertex/PixelVertexFinding/plugins/alpaka/clusterTracksByDensity.h"
-#define CLUSTERIZE ALPAKA_ACCELERATOR_NAMESPACE::vertexFinder::ClusterTracksByDensityKernel
-#endif
 #include "RecoVertex/PixelVertexFinding/interface/PixelVertexWorkSpaceLayout.h"
 #include "RecoVertex/PixelVertexFinding/plugins/PixelVertexWorkSpaceSoAHostAlpaka.h"
 #include "RecoVertex/PixelVertexFinding/plugins/alpaka/PixelVertexWorkSpaceSoADeviceAlpaka.h"
@@ -169,7 +160,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
 #else
           alpaka::exec<Acc1D>(queue,
                               workDivClusterizer,
-                              CLUSTERIZE{},
+                              ALPAKA_ACCELERATOR_NAMESPACE::vertexFinder::ClusterTracksByDensityKernel{},
                               vertices_d.view(),
                               vertices_d.view<reco::ZVertexTracksSoA>(),
                               ws_d.view(),
@@ -320,3 +311,20 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
     }
   }  // namespace vertexfinder_t
 }  // namespace ALPAKA_ACCELERATOR_NAMESPACE
+
+using namespace ALPAKA_ACCELERATOR_NAMESPACE;
+
+int main() {
+  const auto platform = alpaka::PlatformCudaRt{};
+  const auto devices = alpaka::getDevs(platform);
+  if (devices.empty()) {
+    std::cerr << "No devices available for the CUDA backend, "
+      "the test will be skipped.\n";
+    exit(EXIT_FAILURE);
+  }
+
+  Queue queue(devices[0]);
+  vertexfinder_t::runKernels(queue);
+
+  return EXIT_SUCCESS;
+}
