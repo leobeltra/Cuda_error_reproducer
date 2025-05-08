@@ -145,7 +145,7 @@ namespace ALPAKA_ACCELERATOR_NAMESPACE {
 
           alpaka::exec<Acc1D>(queue, workDiv1D, Kernel_print{}, vertices_d.view(), ws_d.view());
 
-          auto workDivClusterizer = make_workdiv<Acc1D>(1, 512 + 256);
+          auto workDivClusterizer = make_workdiv<Acc1D>(1, 512);
 #ifdef ONE_KERNEL
           alpaka::exec<Acc1D>(queue,
                               workDivClusterizer,

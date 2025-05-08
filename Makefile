@@ -37,7 +37,7 @@ CXX_FLAGS := -O3 -pthread -pipe -Werror=main -Werror=pointer-arith -Werror=overl
 
 LINK_FLAGS := -Wl,-E -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-z,noexecstack
 
-LIBS := $(LINK_CUDA) -lcudart -lnvToolsExt -lcuda -lcrypt -ldl -lrt -lstdc++fs #-lnvidia-ml
+LIBS := $(LINK_CUDA) -lcudart -lcuda -lcrypt -ldl -lrt -lstdc++fs #-lnvidia-ml
 
 # Sources
 GPU_SRC := VertexFinder_t.dev.cc
