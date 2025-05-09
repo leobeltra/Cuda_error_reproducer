@@ -718,12 +718,6 @@ namespace cms::soa {
                     _ITERATE_ON_ALL_COMMA(_DECLARE_VIEW_MEMBER_LIST, BOOST_PP_EMPTY(), VALUE_LIST)                     \
           } {}                                                                                                         \
                                                                                                                        \
-    /* Constructor relying on individually provided column structs */                                                  \
-    SOA_HOST_ONLY VIEW(_ITERATE_ON_ALL_COMMA(_DECLARE_VIEW_CONSTRUCTOR_COLUMNS, BOOST_PP_EMPTY(), VALUE_LIST)) {       \
-      bool readyToSet = false;                                                                                         \
-      _ITERATE_ON_ALL(_INITIALIZE_VIEW_PARAMETERS_AND_SIZE, BOOST_PP_EMPTY(), VALUE_LIST)                              \
-    }                                                                                                                  \
-                                                                                                                       \
     /* Copiable */                                                                                                     \
     VIEW(VIEW const&) = default;                                                                                       \
     VIEW& operator=(VIEW const&) = default;                                                                            \
@@ -915,13 +909,6 @@ namespace cms::soa {
                         _ITERATE_ON_ALL_COMMA(_DECLARE_VIEW_CONSTRUCTION_BYCOLUMN_PARAMETERS, const, VALUE_LIST))      \
         : elements_(_soa_impl_elements),                                                                               \
           _ITERATE_ON_ALL_COMMA(_DECLARE_VIEW_MEMBER_INITIALIZERS_BYCOLUMN, ~, VALUE_LIST) {}                          \
-                                                                                                                       \
-    /* Constructor relying on individually provided column structs */                                                  \
-    SOA_HOST_ONLY CONST_VIEW(_ITERATE_ON_ALL_COMMA(                                                                    \
-                             _DECLARE_CONST_VIEW_CONSTRUCTOR_COLUMNS, BOOST_PP_EMPTY(), VALUE_LIST)) {                 \
-      bool readyToSet = false;                                                                                         \
-      _ITERATE_ON_ALL(_INITIALIZE_CONST_VIEW_PARAMETERS_AND_SIZE, BOOST_PP_EMPTY(), VALUE_LIST)                        \
-    }                                                                                                                  \
                                                                                                                        \
     /* Copiable */                                                                                                     \
     CONST_VIEW(CONST_VIEW const&) = default;                                                                           \
